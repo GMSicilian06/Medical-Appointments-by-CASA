@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinica Sagrada Familia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+
+    html {
+        scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: azure;
+            
+        }
+
+        .navbar {
+            background-color: #ece2f7;
+            border-top: 5px solid #6a216d;
+            height: 15%;
+            width: 95%;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            position: sticky;
+            left: 30px;
+            padding: 1%;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: #6a216d;
+            text-align: center;
+            font-family: "Lora", serif;
+            padding: 5px 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            background-color: #6a216d;
+            color: #f2f2f2;
+            height: 20px;
+            width: 200px;
+            border-radius: 30px;
+        }
+
+        section {
+            height: auto;
+            width: 95%;
+            display: flex;
+            border-radius: 5px;
+            position: relative;
+            left: 30px;
+            margin: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        section:first-of-type {
+            text-align: justify;
+            padding: 10px;
+        }
+
+        h1 {
+            padding: 5px;
+            font-family: "Lora", serif;
+            font-size: 2.5rem;
+            color: #6a216d;
+            margin: 0;
+        }
+        
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            background-color: #fefefe;
+            margin: auto;
+            font-family: "Lora", serif;
+            width: 150px;
+            height: auto;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            color: #141417;
+            text-align: center;
+            border: 2px solid #8f688c;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f0ccea;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .image-section img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        }
+
+        .card p {
+            margin: 0;
+        }
+
+        #container-one
+        {
+            display: grid; 
+            justify-content: center; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            margin: 0 auto;    
+        }
+
+        #card-maria
+        {
+            background-color: #fefefe;
+            margin: auto;
+            font-family: "Lora", serif;
+            width: 500px;
+            height: auto;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            color: #141417;
+            text-align: center;
+            border: 2px solid #8f688c;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+        }
+    
+    </style>
+
+    <script> 
+
+        document.addEventListener("DOMContentLoaded", function () 
+        {
+            const sections = document.querySelectorAll("section");
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                        }
+                    });
+                },
+                {
+                    threshold: 0.1,
+                }
+            );
+
+            sections.forEach((section) => observer.observe(section));
+        });
+
+        document.getElementById("comment-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const comment = document.getElementById("comment").value;
+        if (comment.trim() !== "") {
+            const commentContainer = document.getElementById("comments-container");
+            const newComment = document.createElement("p");
+            newComment.textContent = comment;
+            commentContainer.appendChild(newComment);
+            document.getElementById("comment").value = ""; 
+        } else {
+            alert("Por favor escribe un comentario.");
+        }
+    });
+
+    </script>
+
+
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="#section-1">Home</a>
+        <a href="#section-2">Les ofrecemos</a>
+        <a href="#card-maria">Quiénes Somos</a>
+        <a href="/Cita">Agenda tu Cita</a>
+        <a href="#section-4">Contáctanos</a>
+        <a href="#container-comentarios">Déjanos tu Comentario</a>
+        
+    </div>
+
+    <section class="image-section" id="section-1">
+        <div>
+            <h1>Bienvenidos a Consultorio Médico</h1>
+            <h1>La Sagrada Familia</h1>
+            <p style="font-family: Lora, serif;">Somos un consultorio en donde el bienestar de la familia es nuestro principal objetivo. </p>
+            <p style="font-family:Lora, serif;">comprometidos con la salud de la madre, del padre, los abuelos y los hijos. </p>
+            <p style="font-family:Lora, serif;">Nuestra misión es poder servirles empezando desde los más pequeños que hacen el corazón del hogar.</p>
+            <p style="font-family: Lora, serif;">Expertos e Innovadores en Ginecostetricia, Control Prenatal, cuidados durante y después del embarazo</p>
+        </div>
+        <img src="{{ url_for('static', filename='images/Sagrada-Familia.jpg') }}" alt="Sagrada Familia">
+    </section>
+    
+    <section style="background: #ece2f7;" id="section-2">
+        <div class="card-container" id="container-one">
+            <div class="card">Examen Ginecológico, Estudios de Citología Vaginal, Realización de pruebas, diagnóstico, prevención y tratamientos de Papanicolaou. Evitar futuros padecimientos como Cáncer de Cuello Uterino</div>
+            <div class="card">Consejería en Planificación familiar: número de hijos, métodos anticonceptivos, cuidados y procedimientos futuros</div>
+            <div class="card">Atención Integral de la Mujer, antes, durante y después del concebimiento</div>
+            <div class="card">Atención Integral del Niño, control de crecimiento y desarrollo</div>
+            <div class="card">Atención de jóvenes entrando a la pubertad y adlescencia</div>
+            <div class="card">Atención de Enfermedades Crónicas en Adultos, control de Presión arterial, nivel de azúcar en la sangre</div>
+            <div class="card">María Esperanza Álvarez Salinas</div>
+
+        </div>
+        
+    </section>
+    <section style="background: #f0ccea;">
+        <div class="card" id="card-maria">
+            <h2>Quiénes Somos</h2>
+            <p>Dra. María Esperanza Álvarez Salinas</p>
+            <p>Médico General y Cirujana. Universidad Nacional Autónoma de Nicaragua. UNAN-León</p>
+            <p>"Ser médico y poder servir en mi propio consultorio ha sido una gran iniciativa y un gran reto para mi vida profesional"</p>
+            <p>Esta iniciativa con todo el consentimiento por brindar un establecimiento sincero, íntegro y certificado dedicado a la familia, con innovadores métodos, consultas y tratamientos</p>
+        </div>
+        
+    </section>
+    <section style="background: #ece2f7; text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <h2 style="font-family: Lora, serif; font-size:2.5rem; color: #6a216d; margin: 0; padding: 10px;">Horario de Atención</h2>
+        <div class="card-container">
+            <div class="card">
+                <p>Lunes a Viernes</p>
+                <p>De 2:00 PM a 8:00 PM</p>
+            </div>
+            <div class="card">
+                <p>Sábados</p>
+                <p>De 8:00 AM a 5:00PM</p>
+            </div>
+        </div>
+    </section>
+    
+    <section style="background: #f0ccea; display: flex; flex-direction: column; align-items: center;text-align: center;" id="container-comentarios">
+        <h2 style="font-family: Lora, serif; font-size:2rem; color: #6a216d; margin: 10px;">Comentarios</h2>
+
+        <form action="/submit" method="post" id="comment-form" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 600px;">
+            <label for="comment" style="font-family: Lora, serif; font-size:1.2rem; margin-bottom: 10px;">Comenta tu Experiencia:</label>
+            <textarea id="comment" name="comment" rows="4" placeholder="Escribe tu comentario aquí..." 
+                style="width: 100%; max-width: 600px; padding: 10px; font-family: Lora, serif; margin-bottom: 10px; border: 2px solid #6a216d; border-radius: 5px;"></textarea>
+
+
+                <button type="submit" 
+                style="padding: 10px 20px; background-color: #6a216d; color: white; font-family: Lora, serif; border: none; border-radius: 5px; cursor: pointer;">
+                Enviar
+            </button>
+        </form>
+        <div id="comments-container" style="margin-top: 20px; width: 100%; max-width: 600px; text-align: left; font-family: Lora, serif; border-top: 2px solid #6a216d; padding-top: 10px; margin-bottom: 20px;;">
+            <h3 style="color: #6a216d; text-align: center;">Comentarios Recientes:</h3>
+
+
+                {% for comment in comments %}
+
+                <div class="card" style="background-color: #fefefe;
+                margin: auto;
+                font-family: Lora, serif;
+                display: grid;
+                width: 600px;
+                gap: 5px;
+                height: auto;
+                border-radius: 1rem;
+                padding: 0.5rem;
+                color: #141417;
+                text-align: center;
+                border: 2px solid #8f688c;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                {{ comment[0] }}
+            </div>  
+
+            {% endfor %}
+
+            
+            
+        </div>
+    </section>
+    
+</body>
+</html>

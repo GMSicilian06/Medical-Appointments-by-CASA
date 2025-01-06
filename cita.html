@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: azure;
+        }
+
+        .navbar {
+            background-color: #ece2f7;
+            border-top: 5px solid #6a216d;
+            height: 15%;
+            width: 95%;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            position: sticky;
+            left: 30px;
+            padding: 1%;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: #6a216d;
+            text-align: center;
+            font-family: "Lora", serif;
+            padding: 5px 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            background-color: #6a216d;
+            color: #f2f2f2;
+            height: 20px;
+            width: 200px;
+            border-radius: 30px;
+        }
+
+        section {
+            height: auto;
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            background: #f0ccea;
+            border-radius: 5px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            font-family: Lora, serif;
+            margin-bottom: 10px;
+            border: 2px solid #6a216d;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #6a216d;
+            color: white;
+            font-family: Lora, serif;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #comments-container {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+            font-family: Lora, serif;
+            border-top: 2px solid #6a216d;
+            padding-top: 10px;
+        }
+
+    
+    .calendar div {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .taken {
+        background-color: rgb(223, 90, 90);
+        color: white;
+    }
+
+    .available {
+        background-color: rgb(79, 161, 79);
+        color: white;
+    }
+</style>
+
+    </style>
+
+<script>
+
+let currentMonth = new Date().getMonth();  
+let currentYear = new Date().getFullYear(); 
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const prevButton = document.querySelector("#prev-month");
+    const nextButton = document.querySelector("#next-month");
+    const calendar = document.querySelector(".calendar");
+    const monthYearDisplay = document.querySelector("#month-year");
+
+    prevButton.addEventListener("click", () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        updateCalendar();
+    });
+
+    
+    nextButton.addEventListener("click", () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        updateCalendar();
+    });
+
+    
+    async function updateCalendar() {
+        const response = await fetch("/api/citas");
+        const data = await response.json();
+
+        
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const takenDates = data.citas
+            .filter(app => app[1] === "Agendado")
+            .map(app => app[0]);
+
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+        
+        
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        monthYearDisplay.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+        
+        calendar.innerHTML = "";
+
+        
+        for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
+            const emptyDiv = document.createElement("div");
+            calendar.appendChild(emptyDiv);
+        }
+
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(currentYear, currentMonth, day);
+            const dateString = date.toISOString().split("T")[0];
+
+            const dayDiv = document.createElement("div");
+            dayDiv.textContent = day;
+
+            
+            if (takenDates.includes(dateString)) {
+                dayDiv.classList.add("taken");
+            } else {
+                dayDiv.classList.add("available");
+            }
+
+            calendar.appendChild(dayDiv);
+        }
+    }
+
+
+    updateCalendar();
+});
+
+
+
+</script>
+
+
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="#/">Les ofrecemos</a>
+        <a href="/">Quiénes Somos</a>
+        <a href="/">Contáctanos</a>
+        <a href="/">Déjanos tu Comentario</a>
+    </div>
+
+    
+    <section id="container-citas">
+    <h2 style="font-family: Lora, serif; font-size:2rem; color: #6a216d; margin: 10px;">Agenda Tu Cita</h2>
+
+    <form action="/Cita" method="post" id="appointment-form" style="margin-bottom: 20px;">
+        <label for="nombres" style="font-family: Lora, serif; font-size:1.2rem; margin-bottom: 10px;">Tu Nombre:</label>
+        <textarea id="nombres" name="nombres" rows="2" placeholder="Escribe tu nombre y apellidos..." 
+            style="padding: 10px; width: 100%; max-width: 600px; margin-bottom: 10px; border: 2px solid #6a216d; border-radius: 5px;"></textarea>
+
+        <label for="detalles" style="font-family: Lora, serif; font-size:1.2rem; margin-bottom: 10px;">Detalles de la Cita:</label>
+        <textarea id="detalles" name="detalles" rows="4" placeholder="Escribe los detalles de tu cita..." 
+            style="padding: 10px; width: 100%; max-width: 600px; margin-bottom: 10px; border: 2px solid #6a216d; border-radius: 5px;"></textarea>
+
+        <label for="date" style="font-family: Lora, serif; font-size:1.2rem; margin-bottom: 10px;">Selecciona una Fecha:</label>
+        <input type="date" id="date" name="date" 
+            style="width: 100%; max-width: 600px; padding: 10px; font-family: Lora, serif; margin-bottom: 10px; border: 2px solid #6a216d; border-radius: 5px;">
+
+        <button type="submit" style="padding: 10px 20px; background-color: #6a216d; color: white; font-family: Lora, serif; border: none; border-radius: 5px; cursor: pointer;">
+            Agendar Cita
+        </button> 
+        
+    </form>
+
+    <section style="font-family: Lora, serif; background-color: #ece2f7;">
+        <h2 style="font-family: Lora, serif; color: #6a216d;">Calendario</h2>
+        <div>
+            <span id="month-year" style="font-size: 1.5rem; margin: 0 10px;"></span>
+            <button id="prev-month"><--</button>
+            <button id="next-month">--></button>
+        </div>
+        <div class="calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px;"></div>
+    </section>
+            
+    </section>
+</body>
+</html>
